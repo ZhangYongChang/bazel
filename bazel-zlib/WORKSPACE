@@ -1,0 +1,9 @@
+load("@bazel_tools//tools/build_defs/repo:git.bzl", "new_git_repository")
+
+# zlib is required by grpc
+new_git_repository(
+    name = 'zlib-repo',
+    remote = 'https://github.com/madler/zlib.git',
+    build_file = 'BUILD.zlib',
+    commit = 'cacf7f1d4e3d44d871b605da3b647f07d718623f',
+)
