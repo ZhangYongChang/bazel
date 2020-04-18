@@ -31,3 +31,9 @@ Deploy the application by running:
 ```
 $ bazel build :java-maven_deploy.jar
 ```
+
+View the dependency of application
+
+```
+$ xdot < (bazel query  --notool_deps --noimplicit_deps "deps(//:java-maven)" --output graph)
+```
