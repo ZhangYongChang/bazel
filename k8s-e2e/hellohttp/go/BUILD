@@ -21,7 +21,7 @@ go_image(
   name = "server",
   srcs = ["main.go"],
   importpath = "github.com/ZhangYongChang/bazel/k8s-e2e/hellohttp/go",
-  base="@go_base//image"
+  base="@go_base//image",
 )
 
 k8s_deploy(
