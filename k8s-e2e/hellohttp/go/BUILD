@@ -18,27 +18,27 @@ load("@k8s_deploy//:defaults.bzl", "k8s_deploy")
 package(default_visibility = ["//visibility:public"])
 
 go_image(
-    name = "server",
-    srcs = ["main.go"],
-    importpath = "github.com/ZhangYongChang/bazel/k8s-e2e/hellohttp/go",
-    base="@go_base//image"
+  name = "server",
+  srcs = ["main.go"],
+  importpath = "github.com/ZhangYongChang/bazel/k8s-e2e/hellohttp/go",
+  base="@go_base//image"
 )
 
 load("@io_bazel_rules_docker//container:container.bzl", "container_push")
 
 container_push(
-   name = "server-publish",
-   image = ":server",
-   format = "Docker",
-   registry = "index.docker.io",
-   repository = "yczhang88/server",
-   tag = "dev",
+  name = "server-publish",
+  image = ":server",
+  format = "Docker",
+  registry = "index.docker.io",
+  repository = "yczhang88/server",
+  tag = "dev",
 )
 
 k8s_deploy(
-    name = "staging",
-    images = {
-        "hello-http-image:latest": ":server",
-    },
-    template = "//hellohttp:deployment.yaml",
+  name = "staging",
+  images = {
+    "hello-http-image:latest": ":server",
+  },
+  template = "//hellohttp:deployment.yaml",
 )

@@ -1,21 +1,19 @@
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
-# Download the rules_docker repository at release v0.14.1
 http_archive(
-    name = "io_bazel_rules_docker",
-    sha256 = "dc97fccceacd4c6be14e800b2a00693d5e8d07f69ee187babfd04a80a9f8e250",
-    strip_prefix = "rules_docker-0.14.1",
-    urls = ["https://github.com/bazelbuild/rules_docker/releases/download/v0.14.1/rules_docker-v0.14.1.tar.gz"],
+  name = "io_bazel_rules_docker",
+  sha256 = "dc97fccceacd4c6be14e800b2a00693d5e8d07f69ee187babfd04a80a9f8e250",
+  strip_prefix = "rules_docker-0.14.1",
+  urls = ["https://github.com/bazelbuild/rules_docker/releases/download/v0.14.1/rules_docker-v0.14.1.tar.gz"],
 )
 
-# rules_cc defines rules for generating C++ code from Protocol Buffers.
 http_archive(
-    name = "rules_cc",
-    sha256 = "35f2fb4ea0b3e61ad64a369de284e4fbbdcdba71836a5555abb5e194cf119509",
-    strip_prefix = "rules_cc-624b5d59dfb45672d4239422fa1e3de1822ee110",
-    urls = [
-        "https://github.com/bazelbuild/rules_cc/archive/624b5d59dfb45672d4239422fa1e3de1822ee110.tar.gz",
-    ],
+  name = "rules_cc",
+  sha256 = "35f2fb4ea0b3e61ad64a369de284e4fbbdcdba71836a5555abb5e194cf119509",
+  strip_prefix = "rules_cc-624b5d59dfb45672d4239422fa1e3de1822ee110",
+  urls = [
+    "https://github.com/bazelbuild/rules_cc/archive/624b5d59dfb45672d4239422fa1e3de1822ee110.tar.gz",
+  ],
 )
 
 load("@rules_cc//cc:repositories.bzl", "rules_cc_dependencies")
@@ -29,8 +27,9 @@ rules_cc_dependencies()
 # docs in /toolchains/docker/ before blindly adding this to your WORKSPACE.
 # BEGIN OPTIONAL segment:
 load("@io_bazel_rules_docker//toolchains/docker:toolchain.bzl",
-    docker_toolchain_configure="toolchain_configure"
+  docker_toolchain_configure="toolchain_configure"
 )
+
 docker_toolchain_configure(
   name = "docker_config",
   # OPTIONAL: Path to a directory which has a custom docker client config.json.
@@ -58,22 +57,20 @@ docker_toolchain_configure(
 # End of OPTIONAL segment.
 
 load(
-    "@io_bazel_rules_docker//repositories:repositories.bzl",
-    container_repositories = "repositories",
+  "@io_bazel_rules_docker//repositories:repositories.bzl",
+  container_repositories = "repositories",
 )
 
 container_repositories()
-
-load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
 # This requires rules_docker to be fully instantiated before
 # it is pulled in.
 # Download the rules_k8s repository at release v0.4
 http_archive(
-    name = "io_bazel_rules_k8s",
-    sha256 = "d91aeb17bbc619e649f8d32b65d9a8327e5404f451be196990e13f5b7e2d17bb",
-    strip_prefix = "rules_k8s-0.4",
-    urls = ["https://github.com/bazelbuild/rules_k8s/releases/download/v0.4/rules_k8s-v0.4.tar.gz"],
+  name = "io_bazel_rules_k8s",
+  sha256 = "d91aeb17bbc619e649f8d32b65d9a8327e5404f451be196990e13f5b7e2d17bb",
+  strip_prefix = "rules_k8s-0.4",
+  urls = ["https://github.com/bazelbuild/rules_k8s/releases/download/v0.4/rules_k8s-v0.4.tar.gz"],
 )
 
 load("@io_bazel_rules_k8s//k8s:k8s.bzl", "k8s_repositories")
@@ -96,14 +93,11 @@ k8s_defaults(
   cluster = "minikube",
 )
 
-load(
-    "@io_bazel_rules_docker//container:container.bzl",
-    "container_pull",
-)
+load("@io_bazel_rules_docker//container:container.bzl", "container_pull")
 
 container_pull(
-     name = "go_base",
-     registry = "index.docker.io",
-     repository = "golang",
-     tag = "1.14-stretch"
-  )
+  name = "go_base",
+  registry = "index.docker.io",
+  repository = "alpine",
+  tag = "latest"
+)
