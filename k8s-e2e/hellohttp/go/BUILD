@@ -24,17 +24,6 @@ go_image(
   base="@go_base//image"
 )
 
-load("@io_bazel_rules_docker//container:container.bzl", "container_push")
-
-container_push(
-  name = "server-publish",
-  image = ":server",
-  format = "Docker",
-  registry = "index.docker.io",
-  repository = "yczhang88/server",
-  tag = "dev",
-)
-
 k8s_deploy(
   name = "staging",
   images = {
